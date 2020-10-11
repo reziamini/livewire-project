@@ -1,10 +1,6 @@
 <div>
 
-    @if(session()->has('message'))
-        <div class="alert alert-success">
-            {{ session()->get('message') }}
-        </div>
-    @endif
+    <div class="alert alert-success d-none" id="alert"></div>
 
     <form action="" wire:submit.prevent="save()">
         @csrf
@@ -33,5 +29,18 @@
         <div class="form-group mt-5">
             <input type="submit" value="Register" class="btn btn-primary btn-block">
         </div>
+
     </form>
+
+    <script>
+        let alert = document.getElementById('alert');
+        window.addEventListener('show-message', function (e) {
+            alert.classList.remove('d-none');
+            let message = e.detail.message;
+            alert.innerText = message;
+            setTimeout(function () {
+                Livewire.emit('registered');
+            }, 3000);
+        });
+    </script>
 </div>

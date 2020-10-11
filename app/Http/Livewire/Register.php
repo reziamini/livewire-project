@@ -15,9 +15,17 @@ class Register extends Component
         'password' => 'min:6|required'
     ];
 
+    protected $listeners = ['registered'];
+
     public $name;
     public $email;
     public $password;
+
+
+    public function registered()
+    {
+        $this->redirect('/');
+    }
 
     public function updated($inputName, $value){
         $this->validateOnly($inputName, $this->rules);
@@ -37,7 +45,8 @@ class Register extends Component
         $this->email = '';
         $this->name = '';
 
-        session()->flash('message', 'User was created successful');
+        //session()->flash('message', 'User was created successful');
+        $this->dispatchBrowserEvent('show-message', ['message' => 'User was created successful']);
     }
 
     public function render()
